@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vrnz2.QueueHandler", "src\Vrnz2.QueueHandler\Vrnz2.QueueHandler.csproj", "{8F2482FB-1F43-45C0-B854-0BC581750434}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vrnz2.Pinger", "src\Vrnz2.Pinger\Vrnz2.Pinger.csproj", "{7EB9479F-2BAD-4D97-9939-6B89E5995D75}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F2482FB-1F43-45C0-B854-0BC581750434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2482FB-1F43-45C0-B854-0BC581750434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2482FB-1F43-45C0-B854-0BC581750434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2482FB-1F43-45C0-B854-0BC581750434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EB9479F-2BAD-4D97-9939-6B89E5995D75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EB9479F-2BAD-4D97-9939-6B89E5995D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EB9479F-2BAD-4D97-9939-6B89E5995D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EB9479F-2BAD-4D97-9939-6B89E5995D75}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0550303-62D2-4205-9396-4ED38FF1A30B}
+	EndGlobalSection
+EndGlobal

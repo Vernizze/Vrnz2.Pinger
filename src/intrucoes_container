@@ -1,0 +1,3 @@
+docker build -t vrnz2-pinger -f Dockerfile .
+docker create --name vrnz2-pinger-container vrnz2-pinger
+docker start vrnz2-pinger-container
