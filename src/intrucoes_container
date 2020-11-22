@@ -1,3 +1,7 @@
+dotnet publish -c Release
 docker build -t vrnz2-pinger -f Dockerfile .
+docker build -t vrnz2-pinger-control -f Dockerfile .
 docker create --name vrnz2-pinger-container vrnz2-pinger
+docker create --name vrnz2-pinger-control-container vrnz2-pinger-control
 docker start vrnz2-pinger-container
+docker start vrnz2-pinger-control-container

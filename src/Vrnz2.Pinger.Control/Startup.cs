@@ -9,7 +9,7 @@ using System.Reflection;
 using Vrnz2.Pinger.Crosscutting.Settings;
 using Vrnz2.Pinger.Crosscutting.Shared.Interfaces;
 
-namespace Vrnz2.Pinger
+namespace Vrnz2.Pinger.Control
 {
     public static class Startup
     {
@@ -58,26 +58,13 @@ namespace Vrnz2.Pinger
             return services;
         }
 
-        public static List<Type> GetListenQueuePingRequestInputModels()
+        public static List<Type> GetScheduleExecInputModels()
         {
             var models = new List<Type>();
 
             foreach (Type type in GetAssemblies.GetTypes())
             {
-                if (type.GetInterfaces().Contains(typeof(IListenQueuePingRequestInputModel)))
-                    models.Add(type);
-            }
-
-            return models;
-        }
-
-        public static List<Type> GetListenQueuePingInputModels()
-        {
-            var models = new List<Type>();
-
-            foreach (Type type in GetAssemblies.GetTypes())
-            {
-                if (type.GetInterfaces().Contains(typeof(IListenQueuePingInputModel)))
+                if (type.GetInterfaces().Contains(typeof(IScheduleExecInputModel)))
                     models.Add(type);
             }
 

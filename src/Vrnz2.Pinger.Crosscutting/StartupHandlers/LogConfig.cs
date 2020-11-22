@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace Vrnz2.Pinger
+namespace Vrnz2.Pinger.Crosscutting.StartupHandlers
 {
     public static class LogConfig
     {

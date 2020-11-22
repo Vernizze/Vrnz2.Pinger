@@ -5,9 +5,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Vrnz2.Pinger.Crosscutting.Settings;
+using Vrnz2.Pinger.Crosscutting.Shared.Handler;
+using Vrnz2.Pinger.Crosscutting.Shared.Models;
 using Vrnz2.Pinger.Crosscutting.Utils;
-using Vrnz2.Pinger.Shared.Handler;
-using Vrnz2.Pinger.Shared.Models;
 using Vrnz2.QueueHandler;
 
 namespace Vrnz2.Pinger.UseCases.SendPingEveryFiveSecs
@@ -21,6 +21,7 @@ namespace Vrnz2.Pinger.UseCases.SendPingEveryFiveSecs
             public class Input
                 : INotification
             {
+                public string RequestId { get; set; }
                 public string Message { get; set; }
             }
         }
@@ -35,15 +36,17 @@ namespace Vrnz2.Pinger.UseCases.SendPingEveryFiveSecs
             #region Variables
 
             private readonly AwsSqsSettings _awsSqsSettingsOptions;
+            private readonly ServiceSettings _serviceSettings;
             private readonly ILogger _logger;
 
             #endregion
 
             #region Constructors
 
-            public Handler(IOptions<AwsSqsSettings> awsSqsSettingsOptions, ILogger logger)
+            public Handler(IOptions<AwsSqsSettings> awsSqsSettingsOptions, IOptions<ServiceSettings> serviceSettingsOptions, ILogger logger)
             {
                 _awsSqsSettingsOptions = awsSqsSettingsOptions.Value;
+                _serviceSettings = serviceSettingsOptions.Value;
 
                 _logger = logger;
             }
@@ -58,12 +61,12 @@ namespace Vrnz2.Pinger.UseCases.SendPingEveryFiveSecs
                 {
                     using (var queues = new QueuesPool(_awsSqsSettingsOptions.AccessKey, _awsSqsSettingsOptions.SecretKey, _awsSqsSettingsOptions.Region))
                     {
-                        var queue = queues.AddQueue(_awsSqsSettingsOptions.QueueUrl);
+                        var queue = queues.AddQueue(_awsSqsSettingsOptions.QueuePingUrl);
 
-                        await queue.SendOne(new Message<QueueMessage>(new QueueMessage
+                        await queue.SendOne(new Message<PingQueueMessage>(new PingQueueMessage
                         {
-                            ServiceId = $"{ServiceInstanceHandler.Instance.GetServiceInstanceId}",
-                            MessageId = Guid.NewGuid().ToString(),
+                            ServiceId = $"{ServiceInstanceHandler.Instance(_serviceSettings).GetServiceInstanceId}",
+                            MessageId = notification.RequestId,
                             EventUnixTimestamp = DateTimeUtils.UnixTimestamp(),
                             Message = $"{notification.Message}"
                         }));

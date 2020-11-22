@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using Vrnz2.Pinger.Crosscutting.Settings;
 
-namespace Vrnz2.Pinger.Shared.Handler
+namespace Vrnz2.Pinger.Crosscutting.Shared.Handler
 {
     public class ServiceInstanceHandler
     {
@@ -19,21 +19,18 @@ namespace Vrnz2.Pinger.Shared.Handler
 
         #region Constructors
 
-        private ServiceInstanceHandler()
-            => Init();
+        private ServiceInstanceHandler(ServiceSettings serviceSettings)
+            => Init(serviceSettings);
 
         #endregion
 
         #region Attributes
 
-        public static ServiceInstanceHandler Instance
+        public static ServiceInstanceHandler Instance(ServiceSettings serviceSettings)
         {
-            get
-            {
-                _instance = _instance ?? new ServiceInstanceHandler();
+            _instance = _instance ?? new ServiceInstanceHandler(serviceSettings);
 
-                return _instance;
-            }
+            return _instance;
         }
 
         public string GetServiceInstanceId { private set; get; }
@@ -42,12 +39,8 @@ namespace Vrnz2.Pinger.Shared.Handler
 
         #region Methods
 
-        private void Init()
-        {
-            var settings = Startup.GetService<IOptions<ServiceSettings>>().Value;
-
-            GetServiceInstanceId = $"{settings.ServiceIdRoot}-{RandomString(5)}";
-        }
+        private void Init(ServiceSettings serviceSettings)
+            => GetServiceInstanceId = $"{serviceSettings.ServiceIdRoot}-{RandomString(5)}";
 
         private static string RandomString(int length)
         => new string(Enumerable.Repeat(_chars, length)

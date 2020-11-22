@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Vrnz2.Pinger.Crosscutting.StartupHandlers;
 
-namespace Vrnz2.Pinger
+namespace Vrnz2.Pinger.Control
 {
     class Program
     {
@@ -12,14 +12,11 @@ namespace Vrnz2.Pinger
         {
             LogConfig.Config();
             Startup.ConfigureServices();
-            
+
             var mediatr = Startup.GetService<IMediator>();
 
-            Startup.GetListenQueuePingRequestInputModels()
-                .ForEach(m => mediatr.Send(Activator.CreateInstance(m)));
-
-            Startup.GetListenQueuePingInputModels()
-                .ForEach(m => mediatr.Send(Activator.CreateInstance(m)));
+            Startup.GetScheduleExecInputModels()
+                .ForEach(m => mediatr.Publish(Activator.CreateInstance(m)));
 
             Thread.Sleep(Timeout.Infinite);
         }

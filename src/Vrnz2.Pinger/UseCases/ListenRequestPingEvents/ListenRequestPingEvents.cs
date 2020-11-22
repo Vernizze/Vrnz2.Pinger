@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 using Vrnz2.Pinger.Crosscutting.Settings;
 using Vrnz2.Pinger.Crosscutting.Shared.Interfaces;
 using Vrnz2.Pinger.Crosscutting.Shared.Models;
-using Vrnz2.Pinger.Crosscutting.Utils;
+using Vrnz2.Pinger.UseCases.SendPingEveryFiveSecs;
 using Vrnz2.QueueHandler;
 
-namespace Vrnz2.Pinger.UseCases.ListenPingEvents
+namespace Vrnz2.Pinger.UseCases.ListenRequestPingEvents
 {
-    public class ListenPingEvents
+    public class ListenRequestPingEvents
     {
         #region Model
 
         public class Model
         {
             public class Input
-                : IListenQueuePingInputModel, IRequest<Output>
+                : IListenQueuePingRequestInputModel, IRequest<Output>
             {
             }
 
@@ -40,17 +40,24 @@ namespace Vrnz2.Pinger.UseCases.ListenPingEvents
             #region Variables
 
             private readonly AwsSqsSettings _awsSqsSettingsOptions;
+            private readonly MessagesSettings _messageSettings;
+
             private readonly ILogger _logger;
+
+            private readonly IMediator _mediator;
 
             #endregion
 
             #region Constructors
 
-            public Handler(IOptions<AwsSqsSettings> awsSqsSettingsOptions, ILogger logger)
+            public Handler(IOptions<AwsSqsSettings> awsSqsSettingsOptions, IOptions<MessagesSettings> messageSettingsOptions, ILogger logger, IMediator mediator)
             {
                 _awsSqsSettingsOptions = awsSqsSettingsOptions.Value;
+                _messageSettings = messageSettingsOptions.Value;
 
                 _logger = logger;
+
+                _mediator = mediator;
             }
 
             #endregion
@@ -62,13 +69,13 @@ namespace Vrnz2.Pinger.UseCases.ListenPingEvents
                 try
                 {
                     var queues = new QueuesPool(_awsSqsSettingsOptions.AccessKey, _awsSqsSettingsOptions.SecretKey, _awsSqsSettingsOptions.Region);
-                    var queue = queues.AddQueue(_awsSqsSettingsOptions.QueuePingUrl);
+                    var queue = queues.AddQueue(_awsSqsSettingsOptions.QueueRequestPingUrl);
 
                     queue.ErrorEvent += ErrorEvent;
 
-                    queue.Receive<PingQueueMessage>(ReceiveMessage);
+                    queue.Receive<PingRequestQueueMessage>(ReceiveMessage);
 
-                    return Task.FromResult(new Model.Output { Success = true, Message = $"The Queue {_awsSqsSettingsOptions.QueuePingUrl} has been started!" });
+                    return Task.FromResult(new Model.Output { Success = true, Message = $"The Queue {_awsSqsSettingsOptions.QueueRequestPingUrl} has been started!" });
                 }
                 catch (Exception ex)
                 {
@@ -80,9 +87,20 @@ namespace Vrnz2.Pinger.UseCases.ListenPingEvents
                 }
             }
 
-            private void ReceiveMessage(PingQueueMessage message)
+            private void ReceiveMessage(PingRequestQueueMessage message)
             {
-                _logger.Information($"[MESSAGE_RECEIVED] ServiceId: {message.ServiceId} - MessageId: {message.MessageId} - Message Date/Time: {DateTimeUtils.UnixTimestamp(message.EventUnixTimestamp)} - Message: {message.Message}");
+                try
+                {
+                    _mediator.Publish(new SendPing.Model.Input
+                    {
+                        RequestId = message.RequestId,
+                        Message = _messageSettings.PingMessage
+                    });
+                }
+                catch (Exception ex)
+                {
+                    _logger.Information($"[MESSAGE_RECEIVED_ERROR] Error at message receiving!!! Message: {message}");
+                }
             }
 
             private void ErrorEvent(bool success, string message)

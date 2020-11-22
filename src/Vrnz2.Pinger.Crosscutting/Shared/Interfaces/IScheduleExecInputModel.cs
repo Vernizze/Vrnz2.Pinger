@@ -1,4 +1,4 @@
-﻿namespace Vrnz2.Pinger.Shared.Interfaces
+﻿namespace Vrnz2.Pinger.Crosscutting.Shared.Interfaces
 {
     public interface IScheduleExecInputModel
     {

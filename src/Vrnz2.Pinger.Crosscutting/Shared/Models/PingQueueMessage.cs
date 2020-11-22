@@ -1,6 +1,6 @@
-﻿namespace Vrnz2.Pinger.Shared.Models
+﻿namespace Vrnz2.Pinger.Crosscutting.Shared.Models
 {
-    public class QueueMessage
+    public class PingQueueMessage
     {        
         public string ServiceId { get; set; }
         public string MessageId { get; set; }

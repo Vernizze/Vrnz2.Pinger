@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vrnz2.QueueHandler", "src\V
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vrnz2.Pinger", "src\Vrnz2.Pinger\Vrnz2.Pinger.csproj", "{7EB9479F-2BAD-4D97-9939-6B89E5995D75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vrnz2.Pinger.Control", "src\Vrnz2.Pinger.Control\Vrnz2.Pinger.Control.csproj", "{E4417BC5-3E08-461F-9C33-BB32652B4315}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vrnz2.Pinger.Crosscutting", "src\Vrnz2.Pinger.Crosscutting\Vrnz2.Pinger.Crosscutting.csproj", "{0E8284F6-9ED0-4BEA-BCE0-1A48842C74F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{7EB9479F-2BAD-4D97-9939-6B89E5995D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EB9479F-2BAD-4D97-9939-6B89E5995D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EB9479F-2BAD-4D97-9939-6B89E5995D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4417BC5-3E08-461F-9C33-BB32652B4315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4417BC5-3E08-461F-9C33-BB32652B4315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4417BC5-3E08-461F-9C33-BB32652B4315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4417BC5-3E08-461F-9C33-BB32652B4315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E8284F6-9ED0-4BEA-BCE0-1A48842C74F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E8284F6-9ED0-4BEA-BCE0-1A48842C74F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E8284F6-9ED0-4BEA-BCE0-1A48842C74F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E8284F6-9ED0-4BEA-BCE0-1A48842C74F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
